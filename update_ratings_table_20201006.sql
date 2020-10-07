@@ -1,4 +1,4 @@
-ALTER TABLE `usgo_agagd_db`.`ratings` 
+ALTER TABLE `ratings`
 ADD COLUMN `id` INT NOT NULL AUTO_INCREMENT AFTER `Tournament_Code`,
 CHANGE COLUMN `Pin_Player` `Pin_Player` INT(8) UNSIGNED NULL ,
 CHANGE COLUMN `Elab_Date` `Elab_Date` DATE NULL,
