@@ -9,6 +9,8 @@ Schema's for the USGO Databases
 | AGAGD master schema with zero dates removed | schema.sql |
 
 ## AGAGD Legacy Schemas
+| Description                 | File(s) |
+| --------------------------- | ------- |
 | AGAGD schema create statements | legacy/usgo-agagd-scheme-20200913.sql |
 | AGAGD schema with zero dates removed | legacy/usgo-agagd-scheme-no-zero-dates-20200913.sql |
 
