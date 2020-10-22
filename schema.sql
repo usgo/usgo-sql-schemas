@@ -346,7 +346,7 @@ CREATE TABLE `tournaments` (
     `Country_Code` CHAR(2)CHARACTER SET LATIN1 COLLATE LATIN1_BIN NOT NULL DEFAULT '--',
     `Rounds` SMALLINT(2) NOT NULL DEFAULT '0',
     `Total_Players` SMALLINT(3) UNSIGNED DEFAULT '0',
-    `Wallist` TEXTCHARACTER SET LATIN1 COLLATE LATIN1_BIN,
+    `Wallist` TEXT CHARACTER SET LATIN1 COLLATE LATIN1_BIN,
     `Elab_Date` DATE NOT NULL,
     `status` INT(11) DEFAULT NULL,
     UNIQUE KEY `Tournament_Code` (`Tournament_Code`),
@@ -462,9 +462,9 @@ CREATE VIEW `members_view` AS
 CREATE VIEW `most_rated_games_view` AS
     SELECT 
         `p`.`pin` AS `pin`,
-        CONCAT(`test_usgo_agagd`.`players`.`Name`,
+        CONCAT(`players`.`Name`,
                 ' ',
-                `test_usgo_agagd`.`players`.`Last_Name`) AS `Name`,
+                `players`.`Last_Name`) AS `Name`,
         `p`.`Game_Count` AS `Game_Count`
     FROM
         (((SELECT 
@@ -472,35 +472,35 @@ CREATE VIEW `most_rated_games_view` AS
                 (`x`.`count1` + `y`.`count2`) AS `Game_Count`
         FROM
             (((SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_1` AS `pin`,
-                COUNT(`test_usgo_agagd`.`games`.`Game_ID`) AS `count1`
+            `games`.`Pin_Player_1` AS `pin`,
+                COUNT(`games`.`Game_ID`) AS `count1`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0)
-                AND (`test_usgo_agagd`.`games`.`Online` = 0))
-        GROUP BY `test_usgo_agagd`.`games`.`Pin_Player_1`)) `x`
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Exclude` = 0)
+                AND (`games`.`Online` = 0))
+        GROUP BY `games`.`Pin_Player_1`)) `x`
         JOIN (SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_2` AS `pin`,
-                COUNT(`test_usgo_agagd`.`games`.`Game_ID`) AS `count2`
+            `games`.`Pin_Player_2` AS `pin`,
+                COUNT(`games`.`Game_ID`) AS `count2`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0)
-                AND (`test_usgo_agagd`.`games`.`Online` = 0))
-        GROUP BY `test_usgo_agagd`.`games`.`Pin_Player_2`) `y` ON ((`y`.`pin` = `x`.`pin`)))
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Exclude` = 0)
+                AND (`games`.`Online` = 0))
+        GROUP BY `games`.`Pin_Player_2`) `y` ON ((`y`.`pin` = `x`.`pin`)))
         ORDER BY `Game_Count` DESC , `x`.`pin`
         LIMIT 10)) `p`
-        JOIN `test_usgo_agagd`.`players` ON ((`p`.`pin` = `test_usgo_agagd`.`players`.`Pin_Player`)));
+        JOIN `players` ON ((`p`.`pin` = `players`.`Pin_Player`)));
 
 CREATE VIEW `most_tournaments_view` AS
     SELECT 
         `p`.`pin` AS `pin`,
-        CONCAT(`test_usgo_agagd`.`players`.`Name`,
+        CONCAT(`players`.`Name`,
                 ' ',
-                `test_usgo_agagd`.`players`.`Last_Name`) AS `Name`,
+                `players`.`Last_Name`) AS `Name`,
         `p`.`Tournament_Count` AS `Tournament_Count`
     FROM
         (((SELECT 
@@ -508,26 +508,26 @@ CREATE VIEW `most_tournaments_view` AS
                 COUNT(`y`.`tournament_code`) AS `Tournament_Count`
         FROM
             (SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_1` AS `pin`,
-                `test_usgo_agagd`.`games`.`Tournament_Code` AS `tournament_code`
+            `games`.`Pin_Player_1` AS `pin`,
+                `games`.`Tournament_Code` AS `tournament_code`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Online` = 0)
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0)) UNION SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_2` AS `pin`,
-                `test_usgo_agagd`.`games`.`Tournament_Code` AS `tournament_code`
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Online` = 0)
+                AND (`games`.`Exclude` = 0)) UNION SELECT 
+            `games`.`Pin_Player_2` AS `pin`,
+                `games`.`Tournament_Code` AS `tournament_code`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Online` = 0)
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0))) `y`
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Online` = 0)
+                AND (`games`.`Exclude` = 0))) `y`
         GROUP BY `y`.`pin`
         ORDER BY `Tournament_Count` DESC , `y`.`pin`
         LIMIT 10)) `p`
-        JOIN `test_usgo_agagd`.`players` ON ((`p`.`pin` = `test_usgo_agagd`.`players`.`Pin_Player`)));
+        JOIN `players` ON ((`p`.`pin` = `players`.`Pin_Player`)));
 
 CREATE VIEW `top_dan_view` AS
     SELECT 
@@ -539,23 +539,23 @@ CREATE VIEW `top_dan_view` AS
             `x`.`pin` AS `pin`, COUNT(0) AS `game_count`
         FROM
             (SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_1` AS `pin`
+            `games`.`Pin_Player_1` AS `pin`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0)
-                AND (`test_usgo_agagd`.`games`.`Online` = 0)) UNION ALL SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_2` AS `pin`
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Exclude` = 0)
+                AND (`games`.`Online` = 0)) UNION ALL SELECT 
+            `games`.`Pin_Player_2` AS `pin`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0)
-                AND (`test_usgo_agagd`.`games`.`Online` = 0))) `x`
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Exclude` = 0)
+                AND (`games`.`Online` = 0))) `x`
         GROUP BY `x`.`pin`)) `a`
-        JOIN `test_usgo_agagd`.`members` `m` ON ((`a`.`pin` = `m`.`member_id`)))
-        JOIN `test_usgo_agagd`.`players` `p` ON ((`p`.`Pin_Player` = `a`.`pin`)))
+        JOIN `members` `m` ON ((`a`.`pin` = `m`.`member_id`)))
+        JOIN `players` `p` ON ((`p`.`Pin_Player` = `a`.`pin`)))
     WHERE
         ((`a`.`game_count` > 10)
             AND (`p`.`Rating` > 0))
@@ -572,23 +572,23 @@ CREATE VIEW `top_kyu_view` AS
             `x`.`pin` AS `pin`, COUNT(0) AS `game_count`
         FROM
             (SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_1` AS `pin`
+            `games`.`Pin_Player_1` AS `pin`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0)
-                AND (`test_usgo_agagd`.`games`.`Online` = 0)) UNION ALL SELECT 
-            `test_usgo_agagd`.`games`.`Pin_Player_2` AS `pin`
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Exclude` = 0)
+                AND (`games`.`Online` = 0)) UNION ALL SELECT 
+            `games`.`Pin_Player_2` AS `pin`
         FROM
-            `test_usgo_agagd`.`games`
+            `games`
         WHERE
-            ((`test_usgo_agagd`.`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
-                AND (`test_usgo_agagd`.`games`.`Exclude` = 0)
-                AND (`test_usgo_agagd`.`games`.`Online` = 0))) `x`
+            ((`games`.`Game_Date` > (NOW() - INTERVAL 1 YEAR))
+                AND (`games`.`Exclude` = 0)
+                AND (`games`.`Online` = 0))) `x`
         GROUP BY `x`.`pin`)) `a`
-        JOIN `test_usgo_agagd`.`members` `m` ON ((`a`.`pin` = `m`.`member_id`)))
-        JOIN `test_usgo_agagd`.`players` `p` ON ((`p`.`Pin_Player` = `a`.`pin`)))
+        JOIN `members` `m` ON ((`a`.`pin` = `m`.`member_id`)))
+        JOIN `players` `p` ON ((`p`.`Pin_Player` = `a`.`pin`)))
     WHERE
         ((`a`.`game_count` > 10)
             AND (`p`.`Rating` < 0))
