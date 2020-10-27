@@ -18,7 +18,7 @@ Schema's for the USGO Databases
 
 | Description | Files(s) | Updated on schema.sql | Updated on Prodution | Updated on Test |
 | ----------- | -------- | ------------------------ | -------------------- | --------------- |
-| AGAGD update for the ratings table | 20201009_update_ratings_table.sql | 2020-10-09 | no | 2020-10-12 |
+| AGAGD update for the ratings table | 20201009_update_ratings_table.sql | 2020-10-09 | 2020-10-27 | 2020-10-12 |
 | AGAGD update for the members_view | 20201025_replace_member_view.sql | 2020-10-25 | no | no |
 
 ## Method 
