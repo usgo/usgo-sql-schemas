@@ -20,6 +20,7 @@ Schema's for the USGO Databases
 | ----------- | -------- | ------------------------ | -------------------- | --------------- |
 | AGAGD update for the ratings table | 20201009_update_ratings_table.sql | 2020-10-09 | 2020-10-27 | 2020-10-12 |
 | AGAGD update for the members_view | 20201025_replace_member_view.sql | 2020-10-25 | 2020-11-14 | 2020-11-14 |
+| AGAGD Update for DATETIME | 20201025_Modify_DateTime_Columns.sql | 2021-04-28 |  |  |
 
 ## Method 
 ### Provided by Anna Wiggins via Slack
