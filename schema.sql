@@ -92,7 +92,7 @@ CREATE TABLE `country` (
 CREATE TABLE `games` (
     `Game_ID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     `Tournament_Code` VARCHAR(20)CHARACTER SET LATIN1 COLLATE LATIN1_BIN NOT NULL DEFAULT '0',
-    `Game_Date` DATE NOT NULL,
+    `Game_Date` DATETIME NOT NULL,
     `Round` TINYINT(2) UNSIGNED NOT NULL DEFAULT '0',
     `Pin_Player_1` INT(8) UNSIGNED NOT NULL DEFAULT '0',
     `Color_1` CHAR(1)CHARACTER SET LATIN1 COLLATE LATIN1_BIN NOT NULL DEFAULT '_',
@@ -107,14 +107,14 @@ CREATE TABLE `games` (
     `Online` TINYINT(1) DEFAULT '0',
     `Exclude` TINYINT(1) DEFAULT '0',
     `Rated` TINYINT(1) DEFAULT '0',
-    `Elab_Date` DATE NOT NULL,
+    `Elab_Date` DATETIME NOT NULL,
     UNIQUE KEY `Game_ID` (`Game_ID`)
 )  ENGINE=MYISAM AUTO_INCREMENT=1263816 DEFAULT CHARSET=LATIN1;
 
 CREATE TABLE `members` (
     `member_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `legacy_updated` DATE DEFAULT NULL,
-    `legacy_web_updated` DATE DEFAULT NULL,
+    `legacy_updated` DATETIME DEFAULT NULL,
+    `legacy_web_updated` DATETIME DEFAULT NULL,
     `legacy_new` SMALLINT(6) NOT NULL DEFAULT '0',
     `legacy_id` INT(11) DEFAULT NULL,
     `legacy_citizen_of` VARCHAR(100) DEFAULT NULL,
@@ -122,9 +122,9 @@ CREATE TABLE `members` (
     `full_name` VARCHAR(255) DEFAULT NULL,
     `given_names` VARCHAR(255) DEFAULT NULL,
     `family_name` VARCHAR(255) DEFAULT NULL,
-    `renewal_due` DATE DEFAULT NULL,
-    `join_date` DATE DEFAULT NULL,
-    `dob` DATE DEFAULT NULL,
+    `renewal_due` DATETIME DEFAULT NULL,
+    `join_date` DATETIME DEFAULT NULL,
+    `dob` DATETIME DEFAULT NULL,
     `status` ENUM('accepted', 'archived', 'pending') DEFAULT NULL,
     `type` VARCHAR(255) DEFAULT NULL,
     `tags` VARCHAR(255) DEFAULT NULL,
@@ -258,9 +258,9 @@ CREATE TABLE `players` (
     `Tot_Tournaments` INT(4) UNSIGNED DEFAULT '0',
     `Tot_Games` INT(5) UNSIGNED DEFAULT '0',
     `Last_Appearance` VARCHAR(20)CHARACTER SET LATIN1 COLLATE LATIN1_BIN DEFAULT 'null_tournament',
-    `Elab_Date` DATE NOT NULL,
+    `Elab_Date` DATETIME NOT NULL,
     `MType` VARCHAR(8)CHARACTER SET LATIN1 COLLATE LATIN1_BIN NOT NULL DEFAULT '',
-    `MExp` DATE NOT NULL DEFAULT '1900-01-01',
+    `MExp` DATETIME NOT NULL DEFAULT '1900-01-01',
     PRIMARY KEY (`Pin_Player`),
     KEY `Ind_Players` (`Country_Code` , `Club` , `Last_Name` , `Name`),
     KEY `Reverse_Ind` (`Last_Name` , `Name` , `Pin_Player`)
@@ -293,7 +293,7 @@ CREATE TABLE `ratings` (
     `Pin_Player` INT(8) UNSIGNED DEFAULT NULL,
     `Rating` FLOAT(7 , 5 ) DEFAULT NULL,
     `Sigma` FLOAT(6 , 5 ) DEFAULT NULL,
-    `Elab_Date` DATE DEFAULT NULL,
+    `Elab_Date` DATETIME DEFAULT NULL,
     `Tournament_Code` VARCHAR(65) DEFAULT NULL,
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (`id`),
@@ -334,20 +334,20 @@ CREATE TABLE `sys_reg` (
 
 CREATE TABLE `test` (
     `id` INT(11) DEFAULT NULL,
-    `entrydate` DATE DEFAULT NULL
+    `entrydate` DATETIME DEFAULT NULL
 )  ENGINE=MYISAM DEFAULT CHARSET=LATIN1;
 
 CREATE TABLE `tournaments` (
     `Tournament_Code` VARCHAR(20)CHARACTER SET LATIN1 COLLATE LATIN1_BIN NOT NULL DEFAULT '0',
     `Tournament_Descr` VARCHAR(80)CHARACTER SET LATIN1 COLLATE LATIN1_BIN DEFAULT '',
-    `Tournament_Date` DATE NOT NULL,
+    `Tournament_Date` DATETIME NOT NULL,
     `City` VARCHAR(30)CHARACTER SET LATIN1 COLLATE LATIN1_BIN NOT NULL DEFAULT '',
     `State_Code` CHAR(2) DEFAULT NULL,
     `Country_Code` CHAR(2)CHARACTER SET LATIN1 COLLATE LATIN1_BIN NOT NULL DEFAULT '--',
     `Rounds` SMALLINT(2) NOT NULL DEFAULT '0',
     `Total_Players` SMALLINT(3) UNSIGNED DEFAULT '0',
     `Wallist` TEXT CHARACTER SET LATIN1 COLLATE LATIN1_BIN,
-    `Elab_Date` DATE NOT NULL,
+    `Elab_Date` DATETIME NOT NULL,
     `status` INT(11) DEFAULT NULL,
     UNIQUE KEY `Tournament_Code` (`Tournament_Code`),
     KEY `FK_status` (`status`)
