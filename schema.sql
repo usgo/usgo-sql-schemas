@@ -69,8 +69,8 @@ CREATE TABLE `chapters` (
     `comments` TEXT,
     `fees` VARCHAR(255) DEFAULT NULL,
     `display` SMALLINT(1) NOT NULL DEFAULT '1',
-    'faculty_advisor' VARCHAR(50) DEFAULT NULL,
-    'faculty_advisor_email' VARCHAR(75) DEFAULT NULL,
+    `faculty_advisor` VARCHAR(50) DEFAULT NULL,
+    `faculty_advisor_email` VARCHAR(75) DEFAULT NULL,
     PRIMARY KEY (`member_id`),
     KEY `code` (`code`),
     KEY `name` (`name`)
